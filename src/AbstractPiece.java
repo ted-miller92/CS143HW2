@@ -14,7 +14,7 @@ public abstract class AbstractPiece implements Piece {
 	protected static final int PIECE_COUNT = 4;
 
 	/**
-	 * Creates an L-Shape piece. See class description for actual location of r
+	 * Creates an abstract piece. See class description for actual location of r
 	 * and c
 	 *
 	 * @param r row location for this piece
@@ -60,8 +60,10 @@ public abstract class AbstractPiece implements Piece {
 		}
 	}
 
+	/**
+	 * Rotates a piece about the center square
+	 */
 	public void rotate() {
-		System.out.println("Rotating " + Piece.class.getCanonicalName());
 		if (canRotate()) {
 			// rotating all pieces around square[1]
 			// loop over squares of piece
@@ -69,7 +71,6 @@ public abstract class AbstractPiece implements Piece {
 				if (i != 1) {
 					// rotate each one about the center square[1]
 					square[i].rotate(square[1]);
-					System.out.println("rotating(" + i + ")");
 				}
 			}
 		}
@@ -111,6 +112,10 @@ public abstract class AbstractPiece implements Piece {
 
 		return answer;
 	}
+
+	/**
+	 * Returns if piece can rotate
+	 */
 	public boolean canRotate() {
 		if (!ableToMove)
 			return false;

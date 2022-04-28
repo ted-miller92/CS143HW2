@@ -10,9 +10,12 @@ public class SquareShape extends AbstractPiece {
         square[2] = new Square(g, r + 1, c - 1, Color.GRAY, true);
         square[3] = new Square(g, r + 1, c, Color.GRAY, true);
     }
+
+    /**
+     * Square shape should not rotate
+     */
     @Override
     public boolean canRotate(){
-        System.out.println("Square cannot rotate");
         return false;
     }
 }

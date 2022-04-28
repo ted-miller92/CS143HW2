@@ -63,5 +63,33 @@ public class TetrisTest {
 		assertTrue(d.canMove(Direction.RIGHT));
 		assertFalse(d.canMove(Direction.LEFT));
 	}
-	
+
+	@Test
+	void testCanRotate() {
+		Grid g = new Grid();
+
+		// should be false because butted against left side
+		Piece barShape = new BarShape(8, 1, g);
+		assertFalse(barShape.canRotate());
+
+		// should be false because butted against right side
+		Piece jShape = new JShape(8, 9, g);
+		assertFalse(jShape.canRotate());
+
+		// should always be false
+		Piece squareShape = new SquareShape(8, 4, g);
+		assertFalse(squareShape.canRotate());
+
+		// clear grid
+		for (int row = 0; row < Grid.HEIGHT; row++) {
+			for (int col = 0; col < Grid.WIDTH; col++) {
+				g.set(row, col, Grid.EMPTY);
+			}
+		}
+
+		// set a square next to a shape and assert that it cannot rotate
+		Piece barShape2 = new BarShape(6, 4, g);
+		g.set(8, 5, Color.GREEN);
+		assertFalse(barShape2.canRotate());
+	}
 }

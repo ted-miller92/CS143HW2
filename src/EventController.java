@@ -55,19 +55,19 @@ public class EventController extends KeyAdapter implements ActionListener {
 		if (!gameOver) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-				handleMove(Direction.DOWN, center);
+				handleMove(Direction.DOWN);
 				break;
 			case KeyEvent.VK_SPACE:
-				handleMove(Direction.DROP, center);
+				handleMove(Direction.DROP);
 				break;
 			case KeyEvent.VK_LEFT:
-				handleMove(Direction.LEFT, center);
+				handleMove(Direction.LEFT);
 				break;
 			case KeyEvent.VK_RIGHT:
-				handleMove(Direction.RIGHT, center);
+				handleMove(Direction.RIGHT);
 				break;
 			case KeyEvent.VK_UP:
-				handleMove(Direction.ROTATE, center);
+				handleMove(Direction.ROTATE);
 				break;
 			}
 		}
@@ -75,13 +75,13 @@ public class EventController extends KeyAdapter implements ActionListener {
 
 	/** Updates the game periodically based on a timer event */
 	public void actionPerformed(ActionEvent e) {
-		handleMove(Direction.DOWN, center);
+		handleMove(Direction.DOWN);
 	}
 
 	/**
 	 * Update the game by moving in the given direction
 	 */
-	private void handleMove(Direction direction, Square center) {
+	private void handleMove(Direction direction) {
 		game.movePiece(direction);
 		gameOver = game.isGameOver();
 		if (gameOver)

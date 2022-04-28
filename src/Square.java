@@ -15,6 +15,10 @@ public class Square {
 
 	private Color color; // the color of this Square
 
+	public enum RotationDirection {
+		RIGHTandDOWN, DOWNandLEFT, LEFTandUP, UPandRIGHT
+	}
+
 	// possible move directions are defined by the Game class
 
 	// dimensions of a Square
@@ -170,11 +174,11 @@ public class Square {
 				rotation = RotationDirection.LEFTandUP;
 			}
 		}
-		System.out.println("Rotation: " + rotation);
 		if ((destinationCol >= (Grid.WIDTH - 1)) || (destinationCol <= 0)) {
-			System.out.println("destination col out of bounds");
 			move = false;
-		}else{
+		} else if ((destinationRow <= 0) || (destinationRow > (Grid.HEIGHT))){
+			move = false;
+		} else{
 			switch (rotation) {
 				case RIGHTandDOWN:
 					for (int j = 0; j < colTranslate; j++) {    //loop horizontal path (col index)
@@ -240,9 +244,7 @@ public class Square {
 			// assigning new values relative to center
 			this.row = center.getRow() - colTranslate;
 			this.col = center.getCol() - rowTranslate;
-
 		}
-
 	}
 	
 	/**

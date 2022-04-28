@@ -41,7 +41,7 @@ public interface Piece {
 	 */
 	boolean canMove(Direction direction);
 	
-	/*
+	/**
 	 * Returns true if this piece can rotate 90 degrees clockwise
 	 * no parameter needed
 	 */
