@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import org.junit.jupiter.api.Test;
 // changed this
-public class TetrisTest {
+public class TetrisUnitTest {
 
 	@Test
 	void testCheckRows() {
@@ -80,16 +80,13 @@ public class TetrisTest {
 		Piece squareShape = new SquareShape(8, 4, g);
 		assertFalse(squareShape.canRotate());
 
-		// clear grid
-		for (int row = 0; row < Grid.HEIGHT; row++) {
-			for (int col = 0; col < Grid.WIDTH; col++) {
-				g.set(row, col, Grid.EMPTY);
-			}
-		}
 
 		// set a square next to a shape and assert that it cannot rotate
-		Piece barShape2 = new BarShape(6, 4, g);
-		g.set(8, 5, Color.GREEN);
-		assertFalse(barShape2.canRotate());
+		for (int row = 0; row < Grid.HEIGHT; row++){
+			g.set(row, 5, Color.GREEN);
+		}
+		Piece jShape2 = new JShape(6, 4, g);
+
+		assertFalse(jShape2.canRotate());
 	}
 }
