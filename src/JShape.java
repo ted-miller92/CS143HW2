@@ -2,7 +2,7 @@ import java.awt.Color;
 
 public class JShape extends AbstractPiece {
 	/**
-	 * Creates an L-Shape piece. See class description for actual location of r
+	 * Creates an J-Shape piece. See class description for actual location of r
 	 * and c
 	 * 
 	 * @param r

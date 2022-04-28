@@ -86,15 +86,10 @@ public class Square {
 			if (row == (Grid.HEIGHT + 1) || grid.isSet(row - 1, col))
 				move = true;
 			break;
-		case ROTATE:
-				move = true;
-			break;
 		case DOWN:
 			if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col))
 				move = false;
 			break;
-
-		// added the following cases on Apr 13, 2022
 		case DROP:
 			if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col))
 				move = false;
@@ -129,9 +124,6 @@ public class Square {
 			case UP:
 				row = row - 1;
 				break;
-			case ROTATE:
-				rotate(this);
-				break;
 			case DOWN:
 				// edit this to bring piece as far down as it can go
 				row = row + 1;
@@ -147,57 +139,110 @@ public class Square {
 				col++;
 				break;
 			}
-			
-				
 		}
 	}
 	public boolean canRotate(Square center) {
-		
+
+		boolean move = true;
 		// if all squares between (r1, c1) and (r2, c2) is "free" or "clear"
 		// for each square in the piece, check that it can move left/right/up/down to the end location
-		for (int i = 0; i < 4; i++) {
-			// skip square[1]
-			// check if the square can move at all
-			
-			// target destination
-			int targetRow = center.row + (center.col - this.col);
-			int targetCol = center.col + (this.row - center.row);
-			System.out.println("targetRow = " + targetRow);
-			System.out.println("targetCol = " + targetCol);
-			
-			// two loops, one for row "path" and one for column "path"
-			
-			for (int j = 0; j < targetRow; j++) {
-				if (!this.canMove(Direction.LEFT) || !this.canMove(Direction.RIGHT) || !this.canMove(Direction.DOWN) || !this.canMove(Direction.UP)) {
-					return false;
-				}
+
+		// check that destination square is in the grid
+		int colTranslate = center.getCol() - this.getCol();
+		int rowTranslate = this.getRow() - center.getRow();
+
+		int destinationCol = center.getCol() + colTranslate;
+		int destinationRow = center.getRow() + rowTranslate;
+
+		// set rotation directions
+		RotationDirection rotation = RotationDirection.RIGHTandDOWN;
+
+		if (colTranslate > 0) {
+			if (rowTranslate > 0) {
+				rotation = RotationDirection.RIGHTandDOWN;	// positive horizontal & positive vertical movement
+			} else {
+				rotation = RotationDirection.UPandRIGHT;	// negative horizontal & positive vertical movement
 			}
-			for (int k = 0; k < targetCol; k++) {
-				if (!this.canMove(Direction.LEFT) || !this.canMove(Direction.RIGHT) || !this.canMove(Direction.DOWN) || !this.canMove(Direction.UP))  {
-					return false;
-				}
+		} else if (colTranslate < 0) {
+			if (rowTranslate > 0) {
+				rotation = RotationDirection.DOWNandLEFT;
+			} else {
+				rotation = RotationDirection.LEFTandUP;
 			}
 		}
-		return true;
-		
-		// also if rotation doesn't take square out of bounds of grid
-	}
-	
+		System.out.println("Rotation: " + rotation);
+		if ((destinationCol >= (Grid.WIDTH - 1)) || (destinationCol <= 0)) {
+			System.out.println("destination col out of bounds");
+			move = false;
+		}else{
+			switch (rotation) {
+				case RIGHTandDOWN:
+					for (int j = 0; j < colTranslate; j++) {    //loop horizontal path (col index)
+						if (!this.canMove(Direction.RIGHT))
+							move = false;
+						break;
+					}
+					for (int k = 0; k < rowTranslate; k++) {    //loop vertical path (row index)
+						if (!this.canMove(Direction.DOWN))
+							move = false;
+						break;
+					}
+				case UPandRIGHT:
+					for (int j = 0; j < colTranslate; j++) {
+						if (!this.canMove(Direction.RIGHT))
+							move = false;
+						break;
+					}
+					for (int k = this.getRow(); k > rowTranslate; k--) {
+						if (!this.canMove(Direction.UP))
+							move = false;
+						break;
+					}
+				case DOWNandLEFT:
+					for (int j = this.getCol(); j > destinationCol; j--) {
+						if (!this.canMove(Direction.LEFT))
+							move = false;
+						break;
+					}
+					for (int k = 0; k < rowTranslate; k++) {
+						if (!this.canMove(Direction.DOWN))
+							move = false;
+						break;
+					}
+				case LEFTandUP:
+					for (int j = this.getCol(); j > destinationCol; j--) {
+						if (!this.canMove(Direction.LEFT))
+							move = false;
+						break;
+					}
+					for (int k = this.getRow(); k > destinationRow; k--) {
+						if (!this.canMove(Direction.UP))
+							move = false;
+						break;
+					}
+				default:
+					move = true;
+					break;
+				}
+			}return move;
+		}
+
 	/*
 	 * This method rotates a square 90 degrees about the center square of a piece
 	 * takes the center square (square[1]) as an argument
 	 */
 	public void rotate(Square center) {
-		if (canRotate(center)) {
+		if(canRotate(center)){
 			// temp variables to store translations of each square
 			int colTranslate = center.getCol() - this.getCol();
 			int rowTranslate = this.getRow() - center.getRow();
-			
+
 			// assigning new values relative to center
-			this.row = center.getRow() + colTranslate;
-			this.col = center.getCol() + rowTranslate;
+			this.row = center.getRow() - colTranslate;
+			this.col = center.getCol() - rowTranslate;
+
 		}
-		
+
 	}
 	
 	/**

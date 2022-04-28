@@ -30,14 +30,27 @@ public class Game {
 		piece = getRandomPiece();
 		isOver = false;
 	}
-	
-	// Method that returns a random shape
+
 	private Piece getRandomPiece() {
-		// Just for 2 pieces(J and L shape)
-		if (Math.random() < 0.5) {
-			return new LShape(1, Grid.WIDTH / 2 - 1, grid);
-		} else {
-			return new JShape(1, Grid.WIDTH / 2 - 1, grid);
+		// random number between 0 and 6, corresponding to 7 pieces
+		int index = (int) (Math.floor(Math.random() * 7) + 1);
+		switch (index) {
+			case 1:
+				return new LShape(1, Grid.WIDTH / 2 - 1, grid);
+			case 2:
+				return new JShape(1, Grid.WIDTH / 2 - 1, grid);
+			case 3:
+				return new ZShape(1, Grid.WIDTH / 2 -1, grid);
+			case 4:
+				return new TShape(1, Grid.WIDTH / 2 -1, grid);
+			case 5:
+				return new SquareShape(1, Grid.WIDTH / 2 -1, grid);
+			case 6:
+				return new SShape(1, Grid.WIDTH / 2 -1, grid);
+			case 7:
+				return new BarShape(1, Grid.WIDTH / 2 -1, grid);
+			default:
+				return new LShape(1, Grid.WIDTH / 2 - 1, grid);
 		}
 	}
 
@@ -62,10 +75,9 @@ public class Game {
 	 */
 	public void movePiece(Direction direction) {
 		if (piece != null) {
-			if(direction == Direction.ROTATE) {
-				// rotate the piece
+			if (direction == Direction.ROTATE){
 				piece.rotate();
-			} else {
+			}else{
 				piece.move(direction);
 			}
 		}

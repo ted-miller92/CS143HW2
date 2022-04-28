@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public abstract class AbstractPiece implements Piece{
+public abstract class AbstractPiece implements Piece {
 	protected boolean ableToMove; // can this piece move
 
 	protected Square[] square; // the squares that make up this piece
@@ -16,14 +16,10 @@ public abstract class AbstractPiece implements Piece{
 	/**
 	 * Creates an L-Shape piece. See class description for actual location of r
 	 * and c
-	 * 
-	 * @param r
-	 *            row location for this piece
-	 * @param c
-	 *            column location for this piece
-	 * @param g
-	 *            the grid for this game piece
-	 * 
+	 *
+	 * @param r row location for this piece
+	 * @param c column location for this piece
+	 * @param g the grid for this game piece
 	 */
 	public AbstractPiece(Grid g) {
 		grid = g;
@@ -43,13 +39,12 @@ public abstract class AbstractPiece implements Piece{
 	/**
 	 * Moves the piece if possible Freeze the piece if it cannot move down
 	 * anymore
-	 * 
-	 * @param direction
-	 *            the direction to move
+	 *
+	 * @param direction the direction to move
 	 */
 	public void move(Direction direction) {
 		// Handling direction DROP
-		if(direction == Direction.DROP) {
+		if (direction == Direction.DROP) {
 			while (canMove(Direction.DOWN)) {
 				for (int i = 0; i < PIECE_COUNT; i++)
 					square[i].move(direction);
@@ -64,29 +59,25 @@ public abstract class AbstractPiece implements Piece{
 			ableToMove = false;
 		}
 	}
+
 	public void rotate() {
-		System.out.println("Rotate");
-		
+		System.out.println("Rotating " + Piece.class.getCanonicalName());
 		if (canRotate()) {
 			// rotating all pieces around square[1]
 			// loop over squares of piece
 			for (int i = 0; i < 4; i++) {
 				if (i != 1) {
 					// rotate each one about the center square[1]
-					System.out.println("rotating(" + i + ")");
 					square[i].rotate(square[1]);
+					System.out.println("rotating(" + i + ")");
 				}
 			}
 		}
 	}
-	
-	public boolean canRotate() {
-		return true;	// change this
-	}
 
 	/**
 	 * Returns the (row,col) grid coordinates occupied by this Piece
-	 * 
+	 *
 	 * @return an Array of (row,col) Points
 	 */
 	public Point[] getLocations() {
@@ -107,7 +98,6 @@ public abstract class AbstractPiece implements Piece{
 
 	/**
 	 * Returns if this piece can move in the given direction
-	 * 
 	 */
 	public boolean canMove(Direction direction) {
 		if (!ableToMove)
@@ -119,6 +109,16 @@ public abstract class AbstractPiece implements Piece{
 			answer = answer && square[i].canMove(direction);
 		}
 
+		return answer;
+	}
+	public boolean canRotate() {
+		if (!ableToMove)
+			return false;
+
+		boolean answer = true;
+		for (int i = 0; i < PIECE_COUNT; i++){
+			answer = answer && square[i].canRotate(square[1]);
+		}
 		return answer;
 	}
 }

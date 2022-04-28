@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 public interface Piece {
-	
+
 	/**
 	 * Draws the piece on the given Graphics context
 	 */
@@ -20,6 +20,7 @@ public interface Piece {
 	
 	/**
 	 * Rotates the piece clockwise by 90 degrees
+	 * needs no parameter
 	 */
 	void rotate();
 	/**
@@ -38,10 +39,11 @@ public interface Piece {
 	 * Returns if this piece can move in the given direction
 	 * 
 	 */
-	public boolean canMove(Direction direction);
+	boolean canMove(Direction direction);
 	
 	/*
 	 * Returns true if this piece can rotate 90 degrees clockwise
+	 * no parameter needed
 	 */
-	public boolean canRotate();
+	boolean canRotate();
 }
